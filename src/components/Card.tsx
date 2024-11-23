@@ -1,14 +1,29 @@
-import React, { ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
+
+export enum CardVariant {
+  outlined = 'outlined',
+  primary = 'primary',
+}
 
 interface CardProps {
   width?: string
   height?: string
+  variant?: CardVariant
   children?: ReactNode
 }
 
-const Card = ({ width, height, children }: CardProps) => {
+const Card: FC<CardProps> = ({ width, height, children, variant }) => {
   return (
-    <div style={{ width, height, border: '2px solid red' }}>{children}</div>
+    <div
+      style={{
+        width,
+        height,
+        border: variant === CardVariant.outlined ? '2px solid red' : 'none',
+        background: variant === CardVariant.primary ? 'lightgrey' : '',
+      }}
+    >
+      {children}
+    </div>
   )
 }
 
