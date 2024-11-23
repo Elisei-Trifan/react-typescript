@@ -1,4 +1,4 @@
-export interface IAddres {
+export interface IAddress {
   street: string
   city: string
   zipcode: string
@@ -8,5 +8,5 @@ export interface IUser {
   id: number
   name: string
   email: string
-  addres: IAddres
+  address: IAddress
 }
