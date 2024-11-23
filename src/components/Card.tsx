@@ -1,4 +1,5 @@
-import React, { FC, ReactNode } from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { FC, ReactNode, useState } from 'react'
 
 export enum CardVariant {
   outlined = 'outlined',
@@ -9,12 +10,21 @@ interface CardProps {
   width?: string
   height?: string
   variant?: CardVariant
+  buttonClick: (num: number) => void
   children?: ReactNode
 }
 
-const Card: FC<CardProps> = ({ width, height, children, variant }) => {
+const Card: FC<CardProps> = ({
+  width,
+  height,
+  variant,
+  buttonClick,
+  children,
+}) => {
+  const [state, setState] = useState(0)
   return (
     <div
+      onClick={() => buttonClick(state)}
       style={{
         width,
         height,
