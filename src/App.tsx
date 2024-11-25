@@ -1,44 +1,41 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import Card, { CardVariant } from './components/Card'
-import UserList from './components/UserList'
-import { ITodo, IUser } from './types/types'
-import axios from 'axios'
-import List from './components/List'
-import UserItem from './components/UserItem'
-import PostItem from './components/PostItem'
+
 import EventsExample from './components/EventsExample'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import UserPage from './components/UserPage'
+import PostsPage from './components/PostsPage'
+import { NavLink } from 'react-router-dom'
+import UserItemPage from './components/UserItemPage'
+import PostItemPage from './components/PostItemPage'
 
 const App = () => {
-  async function fetchPosts() {
-    try {
-      const response = await axios.get<ITodo[]>(
-        'https://jsonplaceholder.typicode.com/posts?_limit=10'
-      )
-      setPosts(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // interface BrowserRouterProps {
+  //   future: {
+  //     v7_startTransition: boolean
+  //     v7_relativeSplatPath: boolean
+  //   }
+  // }
+
+  // future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
 
   return (
     <div>
-      <EventsExample />
-      <Card
-        buttonClick={(num) => console.log('click', num)}
-        width="200px"
-        height="220px"
-        variant={CardVariant.primary}
-      >
-        <button>Кнопка</button>
-        <p>sduvsdbivi</p>
-      </Card>
-
-      <List
-        items={posts}
-        renderItem={(post: ITodo) => <PostItem post={post} key={post.id} />}
-      />
+      <BrowserRouter>
+        <div>
+          <NavLink to="/users">Users</NavLink>
+          <NavLink to="/posts">Posts</NavLink>
+          <NavLink to="/">Home</NavLink>
+        </div>
+        <div>
+          <Routes>
+            <Route path="/users" element={<UserPage />}></Route>
+            <Route path="/posts" element={<PostsPage />}></Route>
+            <Route path="/users/:id" element={<UserItemPage />}></Route>
+            <Route path="/posts/:id" element={<PostItemPage />}></Route>
+            <Route path="/" element={<EventsExample />}></Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   )
 }
