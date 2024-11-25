@@ -2,14 +2,18 @@
 import React, { useEffect, useState } from 'react'
 import Card, { CardVariant } from './components/Card'
 import UserList from './components/UserList'
-import { IUser } from './types/types'
+import { ITodo, IUser } from './types/types'
 import axios from 'axios'
+import List from './components/List'
+import UserItem from './components/UserItem'
 
 const App = () => {
   const [users, setUsers] = useState<IUser[]>([])
+  const [posts, setPosts] = useState<ITodo[]>([])
 
   useEffect(() => {
     fetchUsers()
+    fetchPosts()
   }, [])
 
   async function fetchUsers() {
@@ -18,6 +22,17 @@ const App = () => {
         'https://jsonplaceholder.typicode.com/users'
       )
       setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function fetchPosts() {
+    try {
+      const response = await axios.get<ITodo[]>(
+        'https://jsonplaceholder.typicode.com/posts'
+      )
+      setPosts(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -34,24 +49,22 @@ const App = () => {
         <button>Кнопка</button>
         <p>sduvsdbivi</p>
       </Card>
-      <UserList users={users} />
+      <List
+        items={users}
+        renderItem={(user: IUser) => <UserItem user={user} key={user.id} />}
+      />
+      <List
+        items={posts}
+        renderItem={(post: ITodo) => (
+          <div key={post.id}>
+            <p>{post.id}</p>
+            <p>{post.title}</p>
+            <p>{post.completed}</p>
+          </div>
+        )}
+      />
     </div>
   )
 }
 
 export default App
-
-// const users: IUser[] = [
-//   {
-//     id: 1,
-//     name: 'Elisei',
-//     email: 'avadfasf',
-//     addres: { city: 'Bendery', street: 'Lenina', zipcode: '3200' },
-//   },
-//   {
-//     id: 2,
-//     name: 'Alina',
-//     email: 'avadfasf',
-//     addres: { city: 'Bendery', street: 'Lenina', zipcode: '3200' },
-//   },
-// ]
