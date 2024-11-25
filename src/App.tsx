@@ -8,27 +8,9 @@ import List from './components/List'
 import UserItem from './components/UserItem'
 import PostItem from './components/PostItem'
 import EventsExample from './components/EventsExample'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 const App = () => {
-  const [users, setUsers] = useState<IUser[]>([])
-  const [posts, setPosts] = useState<ITodo[]>([])
-
-  useEffect(() => {
-    fetchUsers()
-    fetchPosts()
-  }, [])
-
-  async function fetchUsers() {
-    try {
-      const response = await axios.get<IUser[]>(
-        'https://jsonplaceholder.typicode.com/users'
-      )
-      setUsers(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   async function fetchPosts() {
     try {
       const response = await axios.get<ITodo[]>(
@@ -52,10 +34,7 @@ const App = () => {
         <button>Кнопка</button>
         <p>sduvsdbivi</p>
       </Card>
-      <List
-        items={users}
-        renderItem={(user: IUser) => <UserItem user={user} key={user.id} />}
-      />
+
       <List
         items={posts}
         renderItem={(post: ITodo) => <PostItem post={post} key={post.id} />}
