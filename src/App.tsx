@@ -6,6 +6,8 @@ import { ITodo, IUser } from './types/types'
 import axios from 'axios'
 import List from './components/List'
 import UserItem from './components/UserItem'
+import PostItem from './components/PostItem'
+import EventsExample from './components/EventsExample'
 
 const App = () => {
   const [users, setUsers] = useState<IUser[]>([])
@@ -30,7 +32,7 @@ const App = () => {
   async function fetchPosts() {
     try {
       const response = await axios.get<ITodo[]>(
-        'https://jsonplaceholder.typicode.com/posts'
+        'https://jsonplaceholder.typicode.com/posts?_limit=10'
       )
       setPosts(response.data)
     } catch (error) {
@@ -40,6 +42,7 @@ const App = () => {
 
   return (
     <div>
+      <EventsExample />
       <Card
         buttonClick={(num) => console.log('click', num)}
         width="200px"
@@ -55,13 +58,7 @@ const App = () => {
       />
       <List
         items={posts}
-        renderItem={(post: ITodo) => (
-          <div key={post.id}>
-            <p>{post.id}</p>
-            <p>{post.title}</p>
-            <p>{post.completed}</p>
-          </div>
-        )}
+        renderItem={(post: ITodo) => <PostItem post={post} key={post.id} />}
       />
     </div>
   )
