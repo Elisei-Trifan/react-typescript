@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 const EventsExample = () => {
   const [value, setValue] = useState<string>('')
   const [isDrag, setIsDrag] = useState<boolean>(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value)
   }
 
   function clickHandler(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
     console.log(value)
+    console.log(inputRef.current?.value)
   }
 
   function dragHandler(e: React.DragEvent<HTMLDivElement>) {
@@ -36,7 +37,13 @@ const EventsExample = () => {
 
   return (
     <div>
-      <input value={value} onChange={changeHandler} type="text"></input>
+      <input
+        value={value}
+        onChange={changeHandler}
+        type="text"
+        placeholder="Управляемый"
+      ></input>
+      <input ref={inputRef} type="text" placeholder="Неуправляемый"></input>
       <button onClick={clickHandler}>Кнопка инпута</button>
       <div
         onDrag={dragHandler}
